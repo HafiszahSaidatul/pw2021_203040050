@@ -1,0 +1,16 @@
+body {
+    background-image: url(../images/bg3.jpg);
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+}
+
+.column {
+    color: rgb(118, 6, 6);
+    text-align: center;
+}
+
+.form {
+    align-items: center;
+    color: rgb(255, 255, 171);
+    /* left: 34% */
+}
