@@ -2,20 +2,18 @@
 // Hafiszah Saidatul
 // 203040050
 // Shift Jumat 10.00 - 11.00
-?>
+?><?php
+    if (!isset($_GET['id'])) {
+        header("location: ../index.php");
+        exit;
+    }
 
-<?php
-if (!isset($_GET['id'])) {
-    header("location: ../index.php");
-    exit;
-}
+    require('functions.php');
 
-require('functions.php');
+    $id = $_GET['id'];
 
-$id = $_GET['id'];
-
-$lampu = query("SELECT * FROM lampu WHERE id = $id")[0];
-?>
+    $lampu = query("SELECT * FROM lampu WHERE id = $id")[0];
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">

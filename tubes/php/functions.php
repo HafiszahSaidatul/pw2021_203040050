@@ -2,167 +2,165 @@
 // Hafiszah Saidatul
 // 203040050
 // Shift Jumat 10.00 - 11.00
-?>
-<?php
+?><?php
+    function koneksi()
+    {
+        $conn = mysqli_connect("localhost", "root", "");
+        mysqli_select_db($conn, "pw_tubes_203040050");
 
-function koneksi()
-{
-    $conn = mysqli_connect("localhost", "root", "");
-    mysqli_select_db($conn, "pw_tubes_203040050");
-
-    return $conn;
-}
-
-function query($sql)
-{
-    $conn = koneksi();
-    $result = mysqli_query($conn, "$sql");
-
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    return $rows;
-}
-
-function upload()
-{
-    $nama_file = $_FILES['img']['name'];
-    $tipe_file = $_FILES['img']['type'];
-    $ukuran_file = $_FILES['img']['size'];
-    $error = $_FILES['img']['error'];
-    $tmp_file = $_FILES['img']['tmp_name'];
-
-
-
-    // ketika tidak ada gambar yang dipilih
-    if ($error == 4) {
-        // echo "<script> 
-        // alert('pilih gambar terlebih dahulu!');
-        // </script>";
-        return 'nophoto.png';
+        return $conn;
     }
 
-    // cek ekstensi file
-    $daftar_gambar = ['jpg', 'png', 'jpeg', 'jfif'];
-    $ekstensi_file = explode('.', $nama_file);
-    $ekstensi_file = strtolower(end($ekstensi_file));
+    function query($sql)
+    {
+        $conn = koneksi();
+        $result = mysqli_query($conn, "$sql");
 
-    if (!in_array($ekstensi_file, $daftar_gambar)) {
-        echo "<script> 
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    function upload()
+    {
+        $nama_file = $_FILES['img']['name'];
+        $tipe_file = $_FILES['img']['type'];
+        $ukuran_file = $_FILES['img']['size'];
+        $error = $_FILES['img']['error'];
+        $tmp_file = $_FILES['img']['tmp_name'];
+
+
+
+        // ketika tidak ada gambar yang dipilih
+        if ($error == 4) {
+            // echo "<script> 
+            // alert('pilih gambar terlebih dahulu!');
+            // </script>";
+            return 'nophoto.png';
+        }
+
+        // cek ekstensi file
+        $daftar_gambar = ['jpg', 'png', 'jpeg', 'jfif'];
+        $ekstensi_file = explode('.', $nama_file);
+        $ekstensi_file = strtolower(end($ekstensi_file));
+
+        if (!in_array($ekstensi_file, $daftar_gambar)) {
+            echo "<script> 
     alert('yang anda pilih bukan gambar');
     </script>";
-        return false;
-    }
+            return false;
+        }
 
-    // cek type file
-    if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/png') {
-        echo "<script> 
+        // cek type file
+        if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/png') {
+            echo "<script> 
             alert('Yang Anda Pilih Bukan Gambar');
           </script>";
-        return false;
-    }
-    // cek ukuran file
-    // maksimal 5Mb == 5000000
-    if ($ukuran_file > 5000000) {
-        echo "<script> 
+            return false;
+        }
+        // cek ukuran file
+        // maksimal 5Mb == 5000000
+        if ($ukuran_file > 5000000) {
+            echo "<script> 
             alert('File gambar terlalu besar');
           </script>";
-        return false;
+            return false;
+        }
+        //lolos pengecekan
+        // siap upload file
+        // generate nama file baru
+        $nama_file_baru = uniqid();
+        $nama_file_baru .= '.';
+        $nama_file_baru .= $ekstensi_file;
+
+        move_uploaded_file($tmp_file, '../assets/img/' . $nama_file_baru);
+
+        return $nama_file_baru;
     }
-    //lolos pengecekan
-    // siap upload file
-    // generate nama file baru
-    $nama_file_baru = uniqid();
-    $nama_file_baru .= '.';
-    $nama_file_baru .= $ekstensi_file;
-
-    move_uploaded_file($tmp_file, '../assets/img/' . $nama_file_baru);
-
-    return $nama_file_baru;
-}
 
 
 
-//fungsi untuk menambahkan  data didalam database
-function tambah($data)
-{
-    $conn = koneksi();
+    //fungsi untuk menambahkan  data didalam database
+    function tambah($data)
+    {
+        $conn = koneksi();
 
-    // $img = htmlspecialchars($data['img']);
-    $nama = htmlspecialchars($data['nama']);
-    $designer = htmlspecialchars($data['designer']);
-    $harga = htmlspecialchars($data['harga']);
-    $variant = htmlspecialchars($data['variant']);
-    $quantity = htmlspecialchars($data['quantity']);
+        // $img = htmlspecialchars($data['img']);
+        $nama = htmlspecialchars($data['nama']);
+        $designer = htmlspecialchars($data['designer']);
+        $harga = htmlspecialchars($data['harga']);
+        $variant = htmlspecialchars($data['variant']);
+        $quantity = htmlspecialchars($data['quantity']);
 
-    // upload gambar
-    $img = upload();
-    if (!$img) {
-        return false;
+        // upload gambar
+        $img = upload();
+        if (!$img) {
+            return false;
+        }
+        $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES ('', '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+
+        mysqli_query($conn, $query);
+
+        return mysqli_affected_rows($conn);
     }
-    $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES ('', '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+    function hapus($id)
+    {
 
-    mysqli_query($conn, $query);
+        $conn = koneksi();
 
-    return mysqli_affected_rows($conn);
-}
-function hapus($id)
-{
+        $lamps = query("SELECT * FROM lampu WHERE id = $id")[0];
 
-    $conn = koneksi();
+        if ($lamps['img'] != 'nophoto.png') {
+            unlink('../assets/img/' . $lamps['img']);
+        }
+        mysqli_query($conn, "DELETE FROM `lampu` WHERE id = $id") or die(mysqli_error($conn));
 
-    $lamps = query("SELECT * FROM lampu WHERE id = $id")[0];
-
-    if ($lamps['img'] != 'nophoto.png') {
-        unlink('../assets/img/' . $lamps['img']);
+        return mysqli_affected_rows($conn);
     }
-    mysqli_query($conn, "DELETE FROM `lampu` WHERE id = $id") or die(mysqli_error($conn));
+    function cari($keyword)
+    {
+        $conn = koneksi();
 
-    return mysqli_affected_rows($conn);
-}
-function cari($keyword)
-{
-    $conn = koneksi();
-
-    $query = "SELECT * FROM lampu
+        $query = "SELECT * FROM lampu
               WHERE 
             room LIKE '%$keyword%' OR
             nama LIKE '%$keyword%' OR
             harga LIKE '%$keyword%'
           ";
 
-    $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conn, $query);
 
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
+    function ubah($data)
+    {
+        $conn = koneksi();
 
-    return $rows;
-}
-function ubah($data)
-{
-    $conn = koneksi();
+        $id = $data['id'];
+        $gambar_lama = htmlspecialchars($data['gambar_lama']);
+        $nama = htmlspecialchars($data['nama']);
+        $designer = htmlspecialchars($data['designer']);
+        $harga = htmlspecialchars($data['harga']);
+        $variant = htmlspecialchars($data['variant']);
+        $quantity = htmlspecialchars($data['quantity']);
 
-    $id = $data['id'];
-    $gambar_lama = htmlspecialchars($data['gambar_lama']);
-    $nama = htmlspecialchars($data['nama']);
-    $designer = htmlspecialchars($data['designer']);
-    $harga = htmlspecialchars($data['harga']);
-    $variant = htmlspecialchars($data['variant']);
-    $quantity = htmlspecialchars($data['quantity']);
+        $img = upload();
+        if (!$img) {
+            return false;
+        }
 
-    $img = upload();
-    if (!$img) {
-        return false;
-    }
+        if ($img == 'nophoto.png') {
+            $img = $gambar_lama;
+        }
 
-    if ($img == 'nophoto.png') {
-        $img = $gambar_lama;
-    }
-
-    $query = "UPDATE lampu
+        $query = "UPDATE lampu
      SET 
      img = '$img',
      nama = '$nama',
@@ -174,28 +172,28 @@ function ubah($data)
      ";
 
 
-    mysqli_query($conn, $query);
+        mysqli_query($conn, $query);
 
-    return mysqli_affected_rows($conn);
-}
-function registrasi($data)
-{
-    $conn = koneksi();
-    $username = strtolower(stripcslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["password"]);
+        return mysqli_affected_rows($conn);
+    }
+    function registrasi($data)
+    {
+        $conn = koneksi();
+        $username = strtolower(stripcslashes($data["username"]));
+        $password = mysqli_real_escape_string($conn, $data["password"]);
 
-    $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'");
-    if (mysqli_fetch_assoc($result)) {
-        echo "<script>
+        $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'");
+        if (mysqli_fetch_assoc($result)) {
+            echo "<script>
                 alert('username sudah digunakan');
             </script>";
-        return false;
+            return false;
+        }
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        $query_tambah = "INSERT INTO user VALUES('','$username','$password')";
+        mysqli_query($conn, $query_tambah);
+
+        return mysqli_affected_rows($conn);
     }
-    $password = password_hash($password, PASSWORD_DEFAULT);
-
-    $query_tambah = "INSERT INTO user VALUES('','$username','$password')";
-    mysqli_query($conn, $query_tambah);
-
-    return mysqli_affected_rows($conn);
-}
-?>
+    ?>

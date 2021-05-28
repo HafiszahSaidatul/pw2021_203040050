@@ -2,21 +2,19 @@
 // Hafiszah Saidatul
 // 203040050
 // Shift Jumat 10.00 - 11.00
-?>
+?><?php
+    session_start();
 
-<?php
-session_start();
+    if (!isset($_SESSION["username"])) {
+        header("Location: login.php");
+        exit;
+    }
 
-if (!isset($_SESSION["username"])) {
-    header("Location: login.php");
-    exit;
-}
+    require 'functions.php';
 
-require 'functions.php';
-
-if (isset($_GET['cari'])) {
-    $keyword = $_GET['keyword'];
-    $lampu = query("SELECT * FROM lampu WHERE
+    if (isset($_GET['cari'])) {
+        $keyword = $_GET['keyword'];
+        $lampu = query("SELECT * FROM lampu WHERE
               img LIKE '%$keyword%' OR
               nama LIKE '%$keyword%' OR
               designer LIKE '%$keyword%' OR
@@ -24,10 +22,10 @@ if (isset($_GET['cari'])) {
               variant LIKE '%$keyword%' OR
              quantity LIKE '%$keyword%' 
               ");
-} else {
-    $lampu = query("SELECT * FROM lampu");
-}
-?>
+    } else {
+        $lampu = query("SELECT * FROM lampu");
+    }
+    ?>
 <!DOCTYPE html>
 <html lang>
 

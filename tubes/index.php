@@ -2,17 +2,15 @@
 // Hafiszah Saidatul
 // 203040050
 // Shift Jumat 10.00 - 11.00
-?>
+?><?php
+    require 'php/functions.php';
+    $lampu = query("SELECT * FROM lampu");
+    // ketika tombol cari diklik
+    if (isset($_POST['cari'])) {
+        $lampu = cari($_POST['keyword']);
+    }
 
-<?php
-require 'php/functions.php';
-$lampu = query("SELECT * FROM lampu");
-// ketika tombol cari diklik
-if (isset($_POST['cari'])) {
-    $lampu = cari($_POST['keyword']);
-}
-
-?>
+    ?>
 
 <html>
 
