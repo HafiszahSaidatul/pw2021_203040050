@@ -89,6 +89,8 @@
 
         // $img = htmlspecialchars($data['img']);
         $nama = htmlspecialchars($data['nama']);
+        $room = htmlspecialchars($data['room']);
+        $foto = htmlspecialchars($data['foto']);
         $designer = htmlspecialchars($data['designer']);
         $harga = htmlspecialchars($data['harga']);
         $variant = htmlspecialchars($data['variant']);
@@ -99,7 +101,7 @@
         if (!$img) {
             return false;
         }
-        $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES (NULL, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+        $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`,`room`,`foto`) VALUES (NULL, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity','$room','$foto')";
 
         mysqli_query($conn, $query);
 
