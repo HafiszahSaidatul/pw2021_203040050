@@ -7,8 +7,8 @@
 
 function koneksi()
 {
-    $conn = mysqli_connect("localhost", "root", "");
-    mysqli_select_db($conn, "pw_tubes_203040050");
+    $conn = mysqli_connect("localhost", "pw20050", "#Akun#203040050#");
+    mysqli_select_db($conn, "pw20050_pw_tubes_203040050");
 
     return $conn;
 }
@@ -36,7 +36,7 @@ function tambah($data)
     $variant = htmlspecialchars($data['variant']);
     $quantity = htmlspecialchars($data['quantity']);
 
-    $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES ('', '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+    $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES (NULL, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
 
     mysqli_query($conn, $query);
 
@@ -92,7 +92,7 @@ function registrasi($data)
     }
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $query_tambah = "INSERT INTO user VALUES('','$username','$password')";
+    $query_tambah = "INSERT INTO user VALUES(NULL,'$username','$password')";
     mysqli_query($conn, $query_tambah);
 
     return mysqli_affected_rows($conn);

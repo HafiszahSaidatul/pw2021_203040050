@@ -11,7 +11,7 @@ Materi pertemuan kali ini membuat mempelajari mengenai (Delete & Update Data) (S
 <?php
 function koneksi()
 {
-    return mysqli_connect('localhost', 'root', '', 'pw_203040050');
+    return mysqli_connect('localhost', 'pw20050', '#Akun#203040050#', 'pw20050_pw_203040050');
 }
 
 function query($query)
