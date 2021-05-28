@@ -77,7 +77,7 @@
 
                                         <button class="ui  brown button" type="submit" name="tambah" style="text-decoration: none;   color: rgb(255, 255, 171);"> <i style="color:#eee5b1; font-size:20px;" class="plus circle icon large"></i>Add Lamps</button>
 
-                                        <button class="ui  brown button" type="submit">
+                                        <button class="ui  brown button" type="button">
 
                                             <a href="admin.php" style="text-decoration: none;   color: rgb(255, 255, 171);"> <i style="color:#eee5b1; font-size:20px;" class="hand point right icon large"></i>Back Again</a>
                                         </button>
