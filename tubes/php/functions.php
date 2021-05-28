@@ -99,7 +99,7 @@
         if (!$img) {
             return false;
         }
-        $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES ('', '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+        $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES (NULL, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
 
         mysqli_query($conn, $query);
 
