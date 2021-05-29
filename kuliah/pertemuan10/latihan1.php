@@ -10,7 +10,7 @@ Materi pertemuan kali ini membuat mempelajari mengenai koneksi database dan inse
 
 <?php
 // Koneksi ke DB & Pilih Database
-$conn = mysqli_connect('localhost', 'root', '', 'pw_203040050');
+$conn =  mysqli_connect('localhost', 'pw20050', '#Akun#203040050#', 'pw20050_pw_203040050');
 
 // Query isi tabel mahasiswa
 $result = mysqli_query($conn, "SELECT * FROM mahasiswa");

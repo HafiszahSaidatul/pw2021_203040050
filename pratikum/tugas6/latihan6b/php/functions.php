@@ -24,7 +24,6 @@ function query($sql)
     }
     return $rows;
 }
-//fungsi untuk menambahkan  data didalam database
 function tambah($data)
 {
     $conn = koneksi();
@@ -35,8 +34,10 @@ function tambah($data)
     $harga = htmlspecialchars($data['harga']);
     $variant = htmlspecialchars($data['variant']);
     $quantity = htmlspecialchars($data['quantity']);
+    $foto = htmlspecialchars($data['foto']);
+    $room = htmlspecialchars($data['room']);
 
-    $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`) VALUES (NULL, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity')";
+    $query = "INSERT INTO `lampu`(`id`, `img`, `nama`, `designer`, `harga`, `variant`, `quantity`,`foto`,`room`) VALUES (NUll, '$img', '$nama', '$designer', '$harga', '$variant', '$quantity','$foto','$room')";
 
     mysqli_query($conn, $query);
 
